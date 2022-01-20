@@ -57,12 +57,12 @@ fabric.properties
 
 # User-specific files
 *.suo
-*.user
-*.userosscache
+*.test
+*.testosscache
 *.sln.docstates
 
 # User-specific files (MonoDevelop/Xamarin Studio)
-*.userprefs
+*.testprefs
 
 # Build results
 [Dd]ebug/
@@ -160,7 +160,7 @@ $tf/
 # ReSharper is a .NET coding add-in
 _ReSharper*/
 *.[Rr]e[Ss]harper
-*.DotSettings.user
+*.DotSettings.test
 
 # JustCode is a .NET coding add-in
 .JustCode
