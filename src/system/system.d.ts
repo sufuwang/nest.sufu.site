@@ -1,5 +1,8 @@
 interface TypeLoginBody {
-  username?: string;
+  account?: string;
   password?: string;
+  isCanRegister?: boolean;
+}
+interface TypeLoginArgs extends TypeLoginBody {
   sessionId?: string;
 }

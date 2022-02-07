@@ -1,25 +1,41 @@
-import { Body, Controller, Post, Headers, Header, Res } from '@nestjs/common';
+import { Body, Controller, Post, Headers, Res, Req, Get } from '@nestjs/common';
 import { SystemService } from './system.service';
 import { Response, Request } from 'express';
-import { v4 as uuid } from 'uuid';
+import { getOneFromSession } from '../utils/tools';
 
 @Controller('system')
 export class SystemController {
   constructor(private readonly service: SystemService) {}
+
+  @Get('test')
+  test(@Res() response: Response) {
+    return this.service.test(response);
+  }
+
   @Post('login')
-  @Header('Cache-Control', '300')
-  // @Header('sessionId', uuid())
   login(
-    @Res() request: Request,
+    @Req() request: Request,
     @Res() response: Response,
-    @Headers('sessionId') sessionId: string,
+    @Headers('Cookie') cookie: string,
     @Body() body: TypeLoginBody,
   ) {
-    if (sessionId) {
-      console.info('loginBySessionId');
-      return this.service.loginBySessionId(request, response, { sessionId });
+    if (cookie) {
+      const sessionId = getOneFromSession(cookie, 'sessionId');
+      if (sessionId) {
+        console.info('loginBySessionId');
+        return this.service.loginBySessionId(request, response, { sessionId });
+      }
     }
     console.info('loginByPassword');
     return this.service.loginByPassword(request, response, body);
+  }
+
+  @Post('register')
+  register(
+    @Req() request: Request,
+    @Res() response: Response,
+    @Body() body: TypeLoginBody,
+  ) {
+    return this.service.register(request, response, body);
   }
 }
